@@ -16,6 +16,7 @@ export function SubscribeButton({ priceId }: SubscribeButtonProps) {
             signIn('github')
             return;
         }
+        console.log("session", session)
         if(session?.userActiveSession) {
           router.push('/posts')
           return;

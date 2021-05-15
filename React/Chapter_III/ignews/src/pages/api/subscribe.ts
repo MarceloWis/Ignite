@@ -8,7 +8,7 @@ type User = {
     ref: {
         id: string;
     },
-    data: { 
+    data: {
         stripe_customer_id: string;
     }
 }
@@ -25,14 +25,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 ),
             )
         )
-        
+
         let customerId = user.data.stripe_customer_id;
 
         if(!customerId) {
             const stripeCustomer = await stripe.customers.create({
                 email: session.user.email
             })
-    
+
             await fauna.query(
                 q.Update(
                     q.Ref(q.Collection('users'), user.ref.id), {
@@ -58,7 +58,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             })
             return res.status(200).json({ sessionId: checkoutSession.id })
         } catch (error) {
-            console.log(error)
             res.status(405).end('Method not allowed')
         }
 
